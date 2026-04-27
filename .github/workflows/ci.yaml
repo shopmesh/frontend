@@ -1,12 +1,10 @@
-<<<<<<< HEAD
-=======
 # frontend CI/CD
 # Runtime: Node.js (React + Nginx)
 #
 # PR      → code-quality → build (with Trivy)
 # develop → build (with Trivy) → helm-dev update
 # main    → build (with Trivy) → helm-prod update
->>>>>>> 4129bff (fix)
+
 name: frontend
 
 on:
@@ -44,18 +42,12 @@ jobs:
 
   helm-prod:
     needs: build
-<<<<<<< HEAD
-    if: github.ref_name == 'main' && github.event_name == 'push' && needs.build.result == 'success'
-=======
     if: always() && needs.build.result == 'success' && github.ref_name == 'main' && github.event_name == 'push'
->>>>>>> 4129bff (fix)
     uses: shopmesh/shared-workflows-template/.github/workflows/helm.yml@main
     with:
       service_name: frontend
       image_tag:    ${{ needs.build.outputs.tag }}
       helm_repo:    shopmesh/shopmesh-infra
-<<<<<<< HEAD
-=======
       values_file:  charts/frontend/values-prod.yaml
     secrets:
       HELM_CHARTS_TOKEN: ${{ secrets.HELM_CHARTS_TOKEN }}
@@ -69,18 +61,12 @@ jobs:
       image_tag:    ${{ needs.build.outputs.tag }}
       helm_repo:    shopmesh/shopmesh-infra
       values_file:  charts/frontend/values-dev.yaml
->>>>>>> 4129bff (fix)
     secrets:
       HELM_CHARTS_TOKEN: ${{ secrets.HELM_CHARTS_TOKEN }}
 
   notify:
-<<<<<<< HEAD
-    needs: [code-quality, build, helm]
-    if: failure()
-=======
     needs: [code-quality, build, helm-prod, helm-dev]
     if: always() && contains(needs.*.result, 'failure')
->>>>>>> 4129bff (fix)
     uses: shopmesh/shared-workflows-template/.github/workflows/notify.yml@main
     with:
       service_name: frontend
