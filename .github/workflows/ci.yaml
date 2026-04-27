@@ -1,4 +1,4 @@
-# frontend CI/CD
+# frontend CI/CD ##
 # Runtime: Node.js (React + Nginx)
 #
 # PR      → code-quality → build (with Trivy)
